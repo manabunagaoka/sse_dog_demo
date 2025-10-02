@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Parent {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  children  Child[]
+}
+
+model Child {
+  id              String     @id @default(cuid())
+  name            String
+  age             Int
+  vocabularyLevel String     @default("beginner") // beginner, intermediate, advanced
+  aiVoiceEnabled  Boolean    @default(false)
+  parentId        String
+  parent          Parent     @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  sessions        Session[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model Session {
+  id          String      @id @default(cuid())
+  childId     String
+  child       Child       @relation(fields: [childId], references: [id], onDelete: Cascade)
+  scenario    String      @default("general_learning")
+  status      String      @default("active") // active, completed
+  summary     String?     // JSON string containing session summary
+  startedAt   DateTime    @default(now())
+  endedAt     DateTime?
+  utterances  Utterance[]
+}
+
+model Utterance {
+  id            String   @id @default(cuid())
+  sessionId     String
+  session       Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  speaker       String   // 'child' | 'ai_voice'
+  text          String
+  metadata      String?  // JSON string: { pauseDuration: number, tone: string, hesitation: boolean }
+  timestamp     DateTime @default(now())
+}
