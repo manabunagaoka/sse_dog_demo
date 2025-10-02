@@ -39,8 +39,8 @@ export default async function SummaryPage({ params }: SummaryPageProps) {
     }
   }
 
-  const childUtterances = session.utterances.filter((u) => u.speaker === 'child')
-  const aiUtterances = session.utterances.filter((u) => u.speaker === 'ai_voice')
+  const childUtterances = session.utterances.filter((u: any) => u.speaker === 'child')
+  const aiUtterances = session.utterances.filter((u: any) => u.speaker === 'ai_voice')
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-warm-blue to-warm-green p-8">

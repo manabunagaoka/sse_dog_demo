@@ -32,7 +32,7 @@ export default function VoiceNarrator({
       return
     }
 
-    let eventSource: EventSource | null = null
+    // EventSource not used in this implementation
     
     const fetchStream = async () => {
       try {
@@ -113,12 +113,6 @@ export default function VoiceNarrator({
     }
 
     fetchStream()
-
-    return () => {
-      if (eventSource) {
-        eventSource.close()
-      }
-    }
   }, [utterance, sessionId, childId, parentOptIn, onComplete])
 
   return (

@@ -65,16 +65,16 @@ export async function POST(req: NextRequest) {
 
     // Build child state for reasoning engine
     const recentUtterances = session.utterances
-      .filter((u) => u.speaker === 'child')
-      .map((u) => u.text)
+      .filter((u: any) => u.speaker === 'child')
+      .map((u: any) => u.text)
       .reverse()
 
-    const lastSpeechTimestamp = session.utterances.find((u) => u.speaker === 'child')?.timestamp.getTime() || Date.now()
+    const lastSpeechTimestamp = session.utterances.find((u: any) => u.speaker === 'child')?.timestamp.getTime() || Date.now()
 
     const childState: ChildState = {
       vocabularyLevel: child.vocabularyLevel,
       recentUtterances,
-      hesitationCount: recentUtterances.filter((u) => u.includes('um') || u.includes('uh')).length,
+      hesitationCount: recentUtterances.filter((u: string) => u.includes('um') || u.includes('uh')).length,
       engagementScore: calculateEngagement(recentUtterances, lastSpeechTimestamp),
       lastSpeechTimestamp,
       detectedStruggles: detectStruggles(recentUtterances),

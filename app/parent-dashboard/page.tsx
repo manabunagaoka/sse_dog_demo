@@ -55,7 +55,7 @@ export default async function ParentDashboard() {
 
         {/* Children Overview */}
         <div className="grid gap-6">
-          {parent.children.map((child) => (
+          {parent.children.map((child: any) => (
             <div key={child.id} className="bg-white rounded-2xl shadow-xl p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -91,7 +91,7 @@ export default async function ParentDashboard() {
                   <p className="text-gray-500 italic">No sessions yet</p>
                 ) : (
                   <div className="space-y-2">
-                    {child.sessions.map((session) => (
+                    {child.sessions.map((session: any) => (
                       <div
                         key={session.id}
                         className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
